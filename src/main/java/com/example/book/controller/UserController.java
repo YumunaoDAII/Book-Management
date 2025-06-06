@@ -1,4 +1,4 @@
-package com.example.book;
+package com.example.book.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.util.StringUtils;

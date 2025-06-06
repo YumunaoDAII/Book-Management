@@ -1,28 +1,14 @@
-package com.example.book;
+package com.example.book.dao;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.book.model.BookInfo;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-@RequestMapping("/book")
-@RestController
-public class BookController {
-    @RequestMapping("/getList")
-    public List<BookInfo> getList(){
-        List<BookInfo> bookInfos=mockData();
-        for (BookInfo bookInfo : bookInfos) {
-            if (bookInfo.getStatus()==1){
-                bookInfo.setStatusCN("可借阅");
-            }else {
-                bookInfo.setStatusCN("不可借阅");
-            }
-        }
-        return bookInfos;
-    }
+@Component
+public class BookDao {
 
     /**
      * mock从数据库查询数据

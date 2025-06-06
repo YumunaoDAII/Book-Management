@@ -1,4 +1,4 @@
-package com.example.book;
+package com.example.book.model;
 
 import lombok.Data;
 
