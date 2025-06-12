@@ -1,6 +1,8 @@
 package com.example.book.controller;
 
 import com.example.book.model.BookInfo;
+import com.example.book.model.PageRequest;
+import com.example.book.model.ResponseResult;
 import com.example.book.service.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +51,18 @@ public class BookController {
             bookService.addBook(bookInfo);
             return "";
         }catch (Exception e){
+            log.error("添加图书发生异常,   e: "+e);
             return "添加图书发生异常";
         }
 
     }
+    @RequestMapping("/getListByPage")
+    public ResponseResult<BookInfo> getListByPage(PageRequest pageRequest){
+        //参数校验
+        //返回数据
+        ResponseResult<BookInfo> listPage=bookService.getListByPage(pageRequest);
+        return listPage;
+    }
+
 
 }

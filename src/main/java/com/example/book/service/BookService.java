@@ -1,8 +1,11 @@
 package com.example.book.service;
 
 import com.example.book.dao.BookDao;
+import com.example.book.enums.BookStatusEnum;
 import com.example.book.mapper.BookMapper;
 import com.example.book.model.BookInfo;
+import com.example.book.model.PageRequest;
+import com.example.book.model.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,5 +32,17 @@ public class BookService {
 
     public void addBook(BookInfo bookInfo) {
         bookMapper.addBook(bookInfo);
+    }
+
+    public ResponseResult<BookInfo> getListByPage(PageRequest pageRequest){
+        //获得总图书数
+        //获得当前页的数据
+        Integer count=bookMapper.count();
+        List<BookInfo> bookInfos = bookMapper.selectBookByPage(pageRequest);
+        for (BookInfo bookInfo : bookInfos) {
+            bookInfo.setStatusCN(BookStatusEnum.getStatusByCode(bookInfo.getStatus()).getDesc());
+        }
+
+        return new ResponseResult<>(count,bookInfos,pageRequest);
     }
 }
