@@ -1,6 +1,7 @@
 package com.example.book.service;
 
 import com.example.book.dao.BookDao;
+import com.example.book.mapper.BookMapper;
 import com.example.book.model.BookInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,8 @@ import java.util.List;
 public class BookService {
     @Autowired
     private BookDao bookDao;
+    @Autowired
+    private BookMapper bookMapper;
     public List<BookInfo> getList(){
 
         List<BookInfo> bookInfos=bookDao.mockData();
@@ -22,5 +25,9 @@ public class BookService {
             }
         }
         return bookInfos;
+    }
+
+    public void addBook(BookInfo bookInfo) {
+        bookMapper.addBook(bookInfo);
     }
 }

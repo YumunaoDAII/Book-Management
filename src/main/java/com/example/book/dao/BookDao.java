@@ -18,11 +18,11 @@ public class BookDao {
         List<BookInfo> bookInfos=new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             BookInfo bookInfo = new BookInfo();
-            bookInfo.setBookId(i);
+            bookInfo.setId(i);
             bookInfo.setBookName("图书"+i);
             bookInfo.setAuthor("作者"+i);
             bookInfo.setPublish("出版社"+i);
-            bookInfo.setNum(new Random().nextInt(100));
+            bookInfo.setCount(new Random().nextInt(100));
             bookInfo.setPrice(new BigDecimal(new Random().nextInt(100)));
             bookInfo.setStatus(i%5==0?2:1);
             bookInfos.add(bookInfo);

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>图书列表展示</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
     <link rel="stylesheet" href="css/list.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -121,10 +120,10 @@
                         for(var book of books){
                             finalHtml+='<tr>';
                             finalHtml+='<td><input type="checkbox" name="selectBook" value="'+book.bookId+'" id="selectBook" class="book-select"></td>';
-                            finalHtml+='<td>'+book.bookId+'</td>';
+                            finalHtml+='<td>'+book.id+'</td>';
                             finalHtml+='<td>'+book.bookName+'</td>';
                             finalHtml+='<td>'+book.author+'</td>';
-                            finalHtml+='<td>'+book.num+'</td>';
+                            finalHtml+='<td>'+book.count+'</td>';
                             finalHtml+='<td>'+book.price+'</td>';
                             finalHtml+='<td>'+book.publish+'</td>';
                             finalHtml+='<td>'+book.statusCN+'</td>';
