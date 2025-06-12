@@ -55,10 +55,16 @@
                     type:"get",
                     url:"/book/getListByPage"+location.search,
                     success: function(result){
-                        if (result==null||result.records==null){
+                        if (result==null||result.code=="UNLOGIN"){
+                            alert("用户未登录");
+                            location.href="login.html";
                             return;
                         }
-                        var books=result.records;
+                        if (result==null||result.data==null){
+                            return;
+                        }
+                        var data=result.data;
+                        var books=data.records;
                         var finalHtml="";
                         for (var book of books) {
                             finalHtml += '<tr>';
@@ -78,10 +84,10 @@
                         $("tbody").html(finalHtml);
                         //翻页信息
                         $("#pageContainer").jqPaginator({
-                            totalCounts: result.total, //总记录数
+                            totalCounts: data.total, //总记录数
                             pageSize: 10,    //每页的个数
                             visiblePages: 5, //可视页数
-                            currentPage: result.pageRequest.currentPage,  //当前页码
+                            currentPage: data.pageRequest.currentPage,  //当前页码
                             first: '<li class="page-item"><a class="page-link">首页</a></li>',
                             prev: '<li class="page-item"><a class="page-link" href="javascript:void(0);">上一页<\/a><\/li>',
                             next: '<li class="page-item"><a class="page-link" href="javascript:void(0);">下一页<\/a><\/li>',
@@ -97,7 +103,7 @@
                         });
                     }
                 });
-                
+
             }
     
 
@@ -130,7 +136,19 @@
                         ids.push($(this).val());
                     });
                     console.log(ids);
-                    alert("批量删除成功");
+                    // alert("批量删除成功");
+                    $.ajax({
+                        type: "post",
+                        url: "/book/batchDelete?ids="+ids,
+                        success: function (result){
+                            if (result){
+                                getBookList();
+                                alert("删除成功");
+                            }else {
+                                alert("删除失败");
+                            }
+                        }
+                    });
                 }
             }
 

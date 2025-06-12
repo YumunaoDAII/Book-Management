@@ -1,20 +1,19 @@
 package com.example.book.controller;
 
+import com.example.book.constant.Constants;
 import com.example.book.enums.BookStatusEnum;
-import com.example.book.model.BookInfo;
-import com.example.book.model.PageRequest;
-import com.example.book.model.ResponseResult;
+import com.example.book.model.*;
 import com.example.book.service.BookService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 @Slf4j
 @RequestMapping("/book")
 @RestController
@@ -58,14 +57,20 @@ public class BookController {
 
     }
     @RequestMapping("/getListByPage")
-    public ResponseResult<BookInfo> getListByPage(PageRequest pageRequest){
+    public Result getListByPage(PageRequest pageRequest, HttpSession session){
         //参数校验
         //返回数据
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSION_USER_KEY);
+        if (userInfo==null||userInfo.getId()<=0){
+            return Result.unLogin();
+        }
         ResponseResult<BookInfo> listPage=bookService.getListByPage(pageRequest);
-        return listPage;
+        return Result.success(listPage);
+
     }
     @RequestMapping("/queryBookId")
     public BookInfo queryBookById(Integer bookId){
+
         log.info("查询图书信息， bookId: "+bookId);
         return bookService.queryBookById(bookId);
     }
@@ -92,6 +97,17 @@ public class BookController {
         }catch (Exception e){
             log.error("删除图书发生异常, e"+e);
             return "删除图书发生异常";
+        }
+    }
+    @RequestMapping("/batchDelete")
+    public  Boolean batchDelete(@RequestParam List<Integer> ids){
+        log.info("批量删除图书    ，ids:  ",ids);
+        try {
+            bookService.batchDelete(ids);
+            return true;
+        }catch (Exception e){
+            log.error("批量删除图书失败， e",e);
+            return false;
         }
     }
 

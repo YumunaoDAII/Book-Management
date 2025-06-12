@@ -1,5 +1,6 @@
 package com.example.book.controller;
 
+import com.example.book.constant.Constants;
 import com.example.book.model.UserInfo;
 import com.example.book.service.UserInfoService;
 import jakarta.servlet.http.HttpSession;
@@ -14,18 +15,23 @@ public class UserController {
     @Autowired
     private UserInfoService userInfoService;
     @RequestMapping("/login")
-    public Boolean login(String userName, String password, HttpSession session){
+    public Boolean login(String name, String password, HttpSession session){
+        System.out.println("[Debug   UserController25  userName]"+name);
+        System.out.println("[Debug   UserController25  password]"+password);
+
         //1.参数校验
-        if (!StringUtils.hasLength(userName)||!StringUtils.hasLength(password)){
+        if (!StringUtils.hasLength(name)||!StringUtils.hasLength(password)){
             return false;
         }
-        UserInfo userInfo= userInfoService.queryUserInfoByName(userName);
+        UserInfo userInfo= userInfoService.queryUserInfoByName(name);
+        System.out.println("[Debug   UserController25  userInfo]"+userInfo);
         if (userInfo==null){
+
             return false;
         }
         if (password.equals(userInfo.getPassword())){
             userInfo.setPassword("");
-            session.setAttribute("session_user_info",userInfo);
+            session.setAttribute(Constants.SESSION_USER_KEY,userInfo);
             return true;
         }
         return false;
