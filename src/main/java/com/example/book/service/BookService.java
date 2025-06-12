@@ -45,4 +45,12 @@ public class BookService {
 
         return new ResponseResult<>(count,bookInfos,pageRequest);
     }
+
+    public BookInfo queryBookById(Integer bookId) {
+        return bookMapper.queryBookById(bookId);
+    }
+
+    public void updateBook(BookInfo bookInfo) {
+        bookMapper.updateBook(bookInfo);
+    }
 }

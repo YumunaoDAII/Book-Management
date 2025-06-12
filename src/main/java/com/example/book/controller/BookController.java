@@ -1,5 +1,6 @@
 package com.example.book.controller;
 
+import com.example.book.enums.BookStatusEnum;
 import com.example.book.model.BookInfo;
 import com.example.book.model.PageRequest;
 import com.example.book.model.ResponseResult;
@@ -63,6 +64,35 @@ public class BookController {
         ResponseResult<BookInfo> listPage=bookService.getListByPage(pageRequest);
         return listPage;
     }
-
+    @RequestMapping("/queryBookId")
+    public BookInfo queryBookById(Integer bookId){
+        log.info("查询图书信息， bookId: "+bookId);
+        return bookService.queryBookById(bookId);
+    }
+    @RequestMapping("/updateBook")
+    public String updateBook(BookInfo bookInfo){
+        log.info("修改图书信息， bookInfo: "+bookInfo);
+        try {
+            bookService.updateBook(bookInfo);
+            return "";
+        }catch (Exception e){
+            log.error("修改图书发生异常, e"+e);
+            return "修改图书发生异常";
+        }
+    }
+    @RequestMapping("/deleteBook")
+    public String deleteBook(Integer bookId){
+        log.info("删除图书信息， bookInfo: "+bookId);
+        try {
+            BookInfo bookInfo=new BookInfo();
+            bookInfo.setId(bookId);
+            bookInfo.setStatus(BookStatusEnum.DELETED.getCode());
+            bookService.updateBook(bookInfo);
+            return "";
+        }catch (Exception e){
+            log.error("删除图书发生异常, e"+e);
+            return "删除图书发生异常";
+        }
+    }
 
 }

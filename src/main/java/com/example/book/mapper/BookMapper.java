@@ -5,6 +5,7 @@ import com.example.book.model.PageRequest;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface BookMapper {
     List<BookInfo> selectBookByPage(PageRequest pageRequest);
     @Select("select count(1) from book_info where `status`!=0")
     Integer count();
+    @Select("SELECT * FROM book_info WHERE `status`!=0 and id=#{bookId} ")
+    BookInfo queryBookById(Integer bookId);
+
+    Integer updateBook(BookInfo bookInfo);
 }

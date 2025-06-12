@@ -10,6 +10,8 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="js/jq-paginator.js"></script>
+    <link rel="shortcut icon" href="/android-icon-96x96.png" type="image/x-icon">
+    <link rel="icon" href="/android-icon-96x96.png" type="image/x-icon">
 
 </head>
 
@@ -37,6 +39,9 @@
                     <td class="width200">操作</td>
                 </tr>
             </thead>
+            <tbody>
+
+            </tbody>
         </table>
 
         <div class="demo">
@@ -55,20 +60,20 @@
                         }
                         var books=result.records;
                         var finalHtml="";
-                        for(var book of books){
-                            finalHtml+='<tr>';
-                            finalHtml+='<td><input type="checkbox" name="selectBook" value="'+book.bookId+'" id="selectBook" class="book-select"></td>';
-                            finalHtml+='<td>'+book.id+'</td>';
-                            finalHtml+='<td>'+book.bookName+'</td>';
-                            finalHtml+='<td>'+book.author+'</td>';
-                            finalHtml+='<td>'+book.count+'</td>';
-                            finalHtml+='<td>'+book.price+'</td>';
-                            finalHtml+='<td>'+book.publish+'</td>';
-                            finalHtml+='<td>'+book.statusCN+'</td>';
-                            finalHtml+='<td><div class="op">';
-                            finalHtml+='<a href="book_update.html?bookId=4">修改</a>';
-                            finalHtml+='<a href="javascript:void(0)" onclick="deleteBook(4)">删除</a>';
-                            finalHtml+='</div></td></tr>';
+                        for (var book of books) {
+                            finalHtml += '<tr>';
+                            finalHtml += '<td><input type="checkbox" name="selectBook" value="' + book.id + '" id="selectBook" class="book-select"></td>';
+                            finalHtml += '<td>' + book.id + '</td>';
+                            finalHtml += '<td>' + book.bookName + '</td>';
+                            finalHtml += '<td>' + book.author + '</td>';
+                            finalHtml += '<td>' + book.count + '</td>';
+                            finalHtml += '<td>' + book.price + '</td>';
+                            finalHtml += '<td>' + book.publish + '</td>';
+                            finalHtml += '<td>' + book.statusCN + '</td>';
+                            finalHtml += '<td><div class="op">';
+                            finalHtml += '<a href="book_update.html?bookId=' + book.id + '">修改</a>';
+                            finalHtml += '<a href="javascript:void(0)" onclick="deleteBook(' + book.id + ')">删除</a>';
+                            finalHtml += '</div></td></tr>';
                         }
                         $("tbody").html(finalHtml);
                         //翻页信息
@@ -100,7 +105,20 @@
                 var isDelete = confirm("确认删除?");
                 if (isDelete) {
                     //删除图书
-                    alert("删除成功");
+                    // alert("删除成功");
+                    $.ajax({
+                        type: "post",
+                        url: "/book/deleteBook?bookId="+id,
+                        success: function (result){
+                            if (result==""){
+                                // 删除成功后，重新加载当前页数据，而不是跳转到第一页
+                                getBookList();
+                                alert("删除成功");
+                            }else {
+                                alert(result)
+                            }
+                        }
+                    });
                 }
             }
             function batchDelete() {
