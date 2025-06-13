@@ -26,7 +26,7 @@ public class BookController {
         return bookService.getList();
     }
 
-    @RequestMapping("/addBook")
+    @RequestMapping(value = "/addBook",produces = "application/json")
     public String addBook(BookInfo bookInfo){
         //1参数校验
         //2存储数据
@@ -70,29 +70,29 @@ public class BookController {
         log.info("查询图书信息， bookId: "+bookId);
         return bookService.queryBookById(bookId);
     }
-    @RequestMapping("/updateBook")
-    public String updateBook(BookInfo bookInfo){
+    @RequestMapping(value = "/updateBook")
+    public Result updateBook(BookInfo bookInfo){
         log.info("修改图书信息， bookInfo: "+bookInfo);
         try {
             bookService.updateBook(bookInfo);
-            return "";
+            return Result.success("");
         }catch (Exception e){
             log.error("修改图书发生异常, e"+e);
-            return "修改图书发生异常";
+            return Result.fail("修改图书发生异常");
         }
     }
-    @RequestMapping("/deleteBook")
-    public String deleteBook(Integer bookId){
+    @RequestMapping(value = "/deleteBook")
+    public Result deleteBook(Integer bookId){
         log.info("删除图书信息， bookInfo: "+bookId);
         try {
             BookInfo bookInfo=new BookInfo();
             bookInfo.setId(bookId);
             bookInfo.setStatus(BookStatusEnum.DELETED.getCode());
             bookService.updateBook(bookInfo);
-            return "";
+            return Result.success("");
         }catch (Exception e){
             log.error("删除图书发生异常, e"+e);
-            return "删除图书发生异常";
+            return Result.fail("删除图书发生异常");
         }
     }
     @RequestMapping("/batchDelete")

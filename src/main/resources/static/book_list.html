@@ -122,12 +122,13 @@
                         type: "post",
                         url: "/book/deleteBook?bookId="+id,
                         success: function (result){
-                            if (result==""){
+
+                            if (result.code=="SUCCESS"&&result.data==""){
                                 // 删除成功后，重新加载当前页数据，而不是跳转到第一页
                                 getBookList();
                                 alert("删除成功");
                             }else {
-                                alert(result)
+                                alert(result.errMsg)
                             }
                         }
                     });
@@ -147,7 +148,7 @@
                         type: "post",
                         url: "/book/batchDelete?ids="+ids,
                         success: function (result){
-                            if (result){
+                            if (result.code=="SUCCESS"&&result.data==true){
                                 getBookList();
                                 alert("删除成功");
                             }else {
