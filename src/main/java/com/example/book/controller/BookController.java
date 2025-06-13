@@ -60,10 +60,6 @@ public class BookController {
     public Result getListByPage(PageRequest pageRequest, HttpSession session){
         //参数校验
         //返回数据
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSION_USER_KEY);
-        if (userInfo==null||userInfo.getId()<=0){
-            return Result.unLogin();
-        }
         ResponseResult<BookInfo> listPage=bookService.getListByPage(pageRequest);
         return Result.success(listPage);
 

@@ -101,6 +101,12 @@
                                 console.log("第"+page+"页, 类型:"+type);
                             }
                         });
+                    },
+                    error: function (error){
+                        if (error.status==401){
+                            location.href="login.html";
+                            alert("用户未登录");
+                        }
                     }
                 });
 
